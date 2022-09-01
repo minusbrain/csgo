@@ -2,6 +2,12 @@
 
 The Dockerfile will build an image for running a Counter-Strike: Global Offensive dedicated server in a container.
 
+This project has been forked from [https://github.com/kaimallea/csgo]. Thanks to him for setting up this Docker project.
+There are only minor differences currently:
+* I removed RETAKE mods
+* I updated to the newest version of most mods
+* I maintain my own image minusbrain/csgo:latest
+
 The following addons and plugins are included by default:
 
 - [Metamod](https://www.sourcemm.net/)
@@ -10,16 +16,13 @@ The following addons and plugins are included by default:
 - [Updater](https://bitbucket.org/GoD_Tony/updater/downloads/updater.smx)
 - [PugSetup](https://github.com/splewis/csgo-pug-setup)
 - [Practice Mode](https://github.com/splewis/csgo-practice-mode)
-- [Retakes](https://github.com/splewis/csgo-retakes) (**disabled by default**)
 
 To get a 10man/gather going, simply connect and type `.setup` in chat. Practice Mode should also be available from the menu.
-
-Retakes is disabled by default. To enable it, set the environment variable `RETAKES=1` and restart the container. Use can later use the cvar `sm_retakes_enabled 0` to turn if off on-demand.
 
 ## How to Use
 
 ```bash
-docker pull kmallea/csgo:latest
+docker pull minusbrain/csgo:latest
 ```
 
 To use the image as-is, run it with a few useful environment variables to configure the server:
@@ -38,7 +41,7 @@ docker run \
   --env "STEAM_ACCOUNT=gamelogintoken" \
   --env "AUTHKEY=webapikey" \
   --env "SOURCEMOD_ADMINS=STEAM_1:0:123456,STEAM_1:0:654321" \
-  kmallea/csgo
+  minusbrain/csgo
 ```
 
 Would you rather use a bind volume so that you can access file contents directly? Use `--mount type=bind,source=$(pwd),target=/home/steam/csgo` instead of the one in the example above.
@@ -94,11 +97,10 @@ MAXPLAYERS=12
 TV_ENABLE=1
 LAN=0
 SOURCEMOD_ADMINS=
-RETAKES=0
 NOMASTER=0
 ```
 
-For compatibility with the [Docker secrets](https://docs.docker.com/engine/swarm/secrets/) feature the following 
+For compatibility with the [Docker secrets](https://docs.docker.com/engine/swarm/secrets/) feature the following
 environment variables are also available as a '_FILE' variant.
 
 ```bash
@@ -118,7 +120,7 @@ Usage of _FILE variables allows constructs like this in docker compose files:
 version: "3.7"
 services:
   app:
-    image: kmallea/csgo
+    image: minusbrain/csgo
     secrets:
       - csgo_rcon_password
     environment:
@@ -174,7 +176,7 @@ docker run \
   --env "STEAM_ACCOUNT=gamelogintoken" \
   --env "AUTHKEY=webapikey" \
   --env "SOURCEMOD_ADMINS=STEAM_1:0:123456,STEAM_1:0:654321" \
-  kmallea/csgo
+  minusbrain/csgo
 ```
 
 ## Manually Building
@@ -204,7 +206,7 @@ docker build \
   .
 ```
 
-#### Metamod, SourceMod, PugSetup, Retakes, etc
+#### Metamod, SourceMod, PugSetup, etc
 
 All plugins and extensions are installed during the startup of the container. This allows plugins can be managed via an environment variable.
 
@@ -214,10 +216,6 @@ The environment variable `INSTALL_PLUGINS` contains a space-delimited list of pl
 INSTALL_PLUGINS="${INSTALL_PLUGINS:-https://mms.alliedmods.net/mmsdrop/1.10/mmsource-1.10.7-git971-linux.tar.gz
 https://sm.alliedmods.net/smdrop/1.10/sourcemod-1.10.0-git6478-linux.tar.gz
 https://github.com/splewis/csgo-pug-setup/releases/download/2.0.5/pugsetup_2.0.5.zip
-https://github.com/splewis/csgo-retakes/releases/download/v0.3.4/retakes_0.3.4.zip
-https://github.com/b3none/retakes-instadefuse/releases/download/1.4.0/retakes-instadefuse.smx
-https://github.com/b3none/retakes-autoplant/releases/download/2.3.0/retakes_autoplant.smx
-https://github.com/b3none/retakes-hud/releases/download/2.2.5/retakes-hud.smx
 }"
 ```
 

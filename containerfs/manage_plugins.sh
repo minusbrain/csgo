@@ -4,11 +4,9 @@ set -ueo pipefail
 
 : "${CSGO_DIR:?'ERROR: CSGO_DIR IS NOT SET!'}"
 
-export RETAKES="${RETAKES:-0}"
-
 INSTALL_PLUGINS="${INSTALL_PLUGINS:-https://mms.alliedmods.net/mmsdrop/1.12/mmsource-1.12.0-git1160-linux.tar.gz
 https://sm.alliedmods.net/smdrop/1.11/sourcemod-1.11.0-git6903-linux.tar.gz
-http://users.alliedmods.net/~kyles/builds/SteamWorks/SteamWorks-git132-linux.tar.gz	
+http://users.alliedmods.net/~kyles/builds/SteamWorks/SteamWorks-git132-linux.tar.gz
 https://bitbucket.org/GoD_Tony/updater/downloads/updater.smx
 https://github.com/splewis/csgo-practice-mode/releases/download/1.3.4/practicemode_1.3.4.zip
 https://github.com/splewis/csgo-pug-setup/releases/download/2.0.7/pugsetup_2.0.7.zip
@@ -95,26 +93,10 @@ done
 
 PLUGINS_ENABLED_DIR="$CSGO_DIR/csgo/addons/sourcemod/plugins"
 PLUGINS_DISABLED_DIR="$CSGO_DIR/csgo/addons/sourcemod/plugins/disabled"
-RETAKES_PLUGINS="retakes.smx retakes-instadefuse.smx retakes_autoplant.smx retakes-hud.smx retakes_standardallocator.smx"
 PUGSETUP_PLUGINS="pugsetup.smx pugsetup_teamnames.smx pugsetup_damageprint.smx"
 
-# Disable Retakes by default so that we have a working and predictable state without plugins conflict
-if [[ -f "$PLUGINS_ENABLED_DIR"/retakes.smx ]]; then
-  mv "$PLUGINS_ENABLED_DIR"/retakes*.smx "$PLUGINS_DISABLED_DIR"/
-fi
-
-if [ "$RETAKES" = "1" ]; then
-  if [[ -f "$PLUGINS_ENABLED_DIR"/pugsetup.smx ]]; then
-    (cd "$PLUGINS_ENABLED_DIR" && mv pugsetup*.smx "$PLUGINS_DISABLED_DIR")
-    echo "Disabled PugSetup plugins"
-  fi
+if [[ -f "$PLUGINS_DISABLED_DIR"/pugsetup.smx ]]; then
   # shellcheck disable=SC2086
-  (cd "$PLUGINS_DISABLED_DIR" && mv $RETAKES_PLUGINS "$PLUGINS_ENABLED_DIR")
-  echo "Enabled Retakes plugins"
-else
-  if [[ -f "$PLUGINS_DISABLED_DIR"/pugsetup.smx ]]; then
-    # shellcheck disable=SC2086
-    (cd "$PLUGINS_DISABLED_DIR" && mv $PUGSETUP_PLUGINS "$PLUGINS_ENABLED_DIR")
-    echo "Enabled PugSetup plugins"
-  fi
+  (cd "$PLUGINS_DISABLED_DIR" && mv $PUGSETUP_PLUGINS "$PLUGINS_ENABLED_DIR")
+  echo "Enabled PugSetup plugins"
 fi

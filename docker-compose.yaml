@@ -6,7 +6,7 @@ volumes:
 
 services:
   csgo:
-    image: kmallea/csgo:latest
+    image: minusbrain/csgo:latest
     container_name: csgo-ds
 
     environment:
@@ -28,7 +28,6 @@ services:
       MAXPLAYERS: 12
       TV_ENABLE: 1
       LAN: 0
-      RETAKES: 0
 
     volumes:
       - type: volume

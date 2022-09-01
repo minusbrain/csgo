@@ -35,33 +35,13 @@
   [ "$status" -eq 0 ]
 }
 
-@test "Retakes is installed and disabled" {
-  run test -f csgo/addons/sourcemod/plugins/disabled/retakes.smx
-  [ "$status" -eq 0 ]
-}
-
-@test "Retakes Instadefuse is installed and disabled" {
-  run test -f csgo/addons/sourcemod/plugins/disabled/retakes-instadefuse.smx
-  [ "$status" -eq 0 ]
-}
-
-@test "Retakes Autoplant is installed and disabled" {
-  run test -f csgo/addons/sourcemod/plugins/disabled/retakes_autoplant.smx
-  [ "$status" -eq 0 ]
-}
-
-@test "Retakes HUD is installed and disabled" {
-  run test -f csgo/addons/sourcemod/plugins/disabled/retakes-hud.smx
-  [ "$status" -eq 0 ]
-}
-
 @test "Steam IDs were added to admins list" {
-  run grep -q 'STEAM_1:0:654321' 'csgo/addons/sourcemod/configs/admins_simple.ini' 
+  run grep -q 'STEAM_1:0:654321' 'csgo/addons/sourcemod/configs/admins_simple.ini'
   [ "$status" -eq 0 ]
 }
 
 @test "PugSetup config modified correctly" {
-  run grep -q 'sm_pugsetup_snake_captain_picks \"2\"' 'csgo/cfg/sourcemod/pugsetup/pugsetup.cfg' 
+  run grep -q 'sm_pugsetup_snake_captain_picks \"2\"' 'csgo/cfg/sourcemod/pugsetup/pugsetup.cfg'
   [ "$status" -eq 0 ]
 }
 

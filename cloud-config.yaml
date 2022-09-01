@@ -62,7 +62,7 @@ write_files:
 
     [Service]
     StandardInput=tty-force
-    ExecStartPre=/usr/bin/docker pull kmallea/csgo
+    ExecStartPre=/usr/bin/docker pull minusbrain/csgo
     ExecStart=/usr/bin/docker run --name %n \
                                   --interactive \
                                   --tty \
@@ -77,7 +77,7 @@ write_files:
                                   -e "SOURCEMOD_ADMINS=STEAM_1:0:123456,STEAM_1:1:654321" \
                                   -e "AUTHKEY=changeme" \
                                   -e "FPS_MAX=1000" \
-                                  kmallea/csgo
+                                  minusbrain/csgo
     ExecStop=-/usr/bin/docker stop %n
     ExecStopPost=-/usr/bin/docker rm %n
 
